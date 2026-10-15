@@ -1,0 +1,88 @@
+{
+  "verification_date": "2026-10-15",
+  "author": "Ao-Xiang Liu",
+  "scope": "d=4, three copies; arbitrary complex rank-at-most-two coefficient matrices",
+  "all_five_stages_exit_successfully": true,
+  "verification_directory": "Isolated publication repository, with all Gram maps rebuilt from scratch",
+  "environment": {
+    "python": "3.11.5",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "sympy": "1.14.0",
+    "python-flint": "0.9.0"
+  },
+  "results": {
+    "reduction_audit": {
+      "universal_joint_entrywise_identities": 3,
+      "general_complex_d4_diagnostic_inputs": 24,
+      "rank_one_inputs": 8,
+      "swap_subset_diagnostics": 192,
+      "maximum_diagnostic_error": 9.436918788597852e-16,
+      "maximum_B_isometry_defect": 1.4142135623730956,
+      "numerical_checks_are_not_proof": true,
+      "analytic_reduction": "See manuscript, matched four-replica section"
+    },
+    "manifest_audit": {
+      "existing_manifest_checked": true,
+      "files": 2485,
+      "all_hashes_match": true
+    },
+    "module_audit": {
+      "modules": 50,
+      "literal_intertwiners": 1200,
+      "positive_metrics": true
+    },
+    "source_audit": {
+      "source_dimensions": {
+        "31": 667,
+        "22": 1407
+      },
+      "total": 2741,
+      "basis_minor_prime": 1000033,
+      "nonzero_minor_determinants": {
+        "31": 686863,
+        "22": 137174,
+        "13": 686863
+      },
+      "source_diagrams_exact": true,
+      "equality_columns_exact": 2741,
+      "objective_coefficients_exact": 2741,
+      "coordinate_scale": 268435456,
+      "all_constraints_rebuilt_from_literal_partial_traces": true
+    },
+    "equality_rank_audit": {
+      "all_row_rank": 272,
+      "selected_row_rank": 272,
+      "arithmetic": "rational",
+      "seconds": 41.38428225007374
+    },
+    "maps_audit": {
+      "maps_rebuilt": 1239,
+      "all_saved_maps_match": true,
+      "arithmetic": "bounded integers, no floating point",
+      "seconds": 48.414967666962184
+    },
+    "certificate_audit": {
+      "coefficient_identities": 2741,
+      "positive_Gram_blocks": 1239,
+      "positive_congruence_rows": 4231,
+      "rational_margin_lower_bound": "9999992/10000000",
+      "all_exact": true,
+      "maps_from_second_implementation": true,
+      "seconds": 69.44956562505104
+    }
+  },
+  "pdf": {
+    "path": "output/pdf/three_copy_d4_werner_manuscript.pdf",
+    "pages": 10,
+    "format": "PRA REVTeX 4.2 with newtx",
+    "compile": "Desktop compiler and latexmk succeeded",
+    "layout_check": "All pages rendered and inspected; no overfull boxes or unresolved references"
+  },
+  "status": "Computer-assisted proof draft, project-internal verification, no external peer review",
+  "excluded_claims": [
+    "four-copy undistillability",
+    "arbitrary-copy undistillability",
+    "NPT bound entanglement existence"
+  ]
+}

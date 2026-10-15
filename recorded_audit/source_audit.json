@@ -1,0 +1,18 @@
+{
+  "source_dimensions": {
+    "31": 667,
+    "22": 1407
+  },
+  "total": 2741,
+  "basis_minor_prime": 1000033,
+  "nonzero_minor_determinants": {
+    "31": 686863,
+    "22": 137174,
+    "13": 686863
+  },
+  "source_diagrams_exact": true,
+  "equality_columns_exact": 2741,
+  "objective_coefficients_exact": 2741,
+  "coordinate_scale": 268435456,
+  "all_constraints_rebuilt_from_literal_partial_traces": true
+}

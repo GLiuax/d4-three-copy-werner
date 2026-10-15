@@ -1,0 +1,1427 @@
+\documentclass[aps,pra,reprint,amsmath,amssymb,floatfix,nofootinbib]{revtex4-2}
+\usepackage{amsthm,mathtools,mathrsfs,booktabs}
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\rk}{\operatorname{rank}}
+\newcommand{\ran}{\operatorname{ran}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\vecop}{\operatorname{vec}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\ip}[2]{\left\langle#1,#2\right\rangle}
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\Sfour}{\mathfrak S_4}
+\newcommand{\Sthree}{\mathfrak S_3}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\setlength{\emergencystretch}{2em}
+\begin{document}
+\title{Three-copy undistillability of the boundary two-ququart Werner state}
+\author{Ao-Xiang Liu}
+\noaffiliation
+\date{15 October 2026}
+\begin{abstract}
+We give a computer-assisted proof that the two-ququart Werner state
+$\rho_*=(I-F/2)/14$ is three-copy undistillable.
+Equivalently, its three-factor partial-trace form is nonnegative on every
+complex $64\times64$ matrix of rank at most two, including nonnormal
+matrices with unequal singular values.
+An isometric factorization embeds every such matrix into three matched
+four-replica moments with valid partial-transpose and joint positivity
+constraints. Common symmetry averaging gives a complete rational source
+space of dimension $2741$, including the additional alternating component
+present at local dimension four.
+An exact functional identity combines $1239$ rational positive Gram
+multipliers with homogeneous equality constraints to reproduce the
+objective. Every coefficient and positivity inequality is verified in
+rational arithmetic, with a second implementation rebuilding the
+coefficient maps from literal permutation matrices.
+The result gives the exact three-copy distillability threshold
+$\alpha<-1/2$ for the two-ququart Werner family.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+Entanglement distillation distinguishes quantum correlations that can
+supply pure entangled pairs from correlations that remain inaccessible
+to local operations and classical communication. States with positive
+partial transpose are undistillable, even when arbitrarily many copies
+are available~\cite{HHH}. Whether this obstruction exhausts bound
+entanglement is a longstanding question. A state with negative partial
+transpose that remained undistillable at every copy number would establish
+the existence of negative-partial-transpose bound entanglement.
+
+Werner states provide a symmetric setting in which to study this question
+\cite{Werner,DCLB,DSS,Five}. Their symmetry reduces the state family to one
+parameter, while the distillation test still ranges over arbitrary
+Schmidt-rank-two vectors across all available copies. The boundary of
+one-copy distillability is particularly useful. Proving that this boundary
+state remains undistillable at a larger fixed copy number isolates the
+possibility that collective processing may activate its entanglement.
+The two-ququart instance at two copies was singled out in
+Ref.~\cite{Five}, following matrix formulations developed in
+Ref.~\cite{PPHH}.
+
+The finite-copy criterion admits a formulation through partial traces of
+low-rank coefficient matrices~\cite{CostaRico}.
+Recent preprints establish the sharp two-copy inequality and its Werner
+consequences~\cite{SC,FHPV,FGP,BGH}. Extending that argument to three copies
+requires new control of the simultaneous reductions of a matrix.
+Partial trace can increase rank, and the two-copy inequality cannot be
+applied successively while retaining the rank-two hypothesis.
+Wu and Zou prove the three-copy endpoint for all normal rank-two matrices
+and for specified nonnormal support classes in arbitrary local
+dimensions~\cite{WZ}.
+The remaining matrices need not have either of these structures.
+
+Semidefinite formulations of Werner distillability have a substantial
+history~\cite{VD}. A recent candidate manuscript gives a rational
+certificate for the unrestricted three-copy qutrit endpoint using
+matched four-replica moments and a coupled positive block~\cite{Candidate}.
+We use that moment construction, with its unrestricted second matrix
+factor, and extend the source coordinates and positive representations
+to local dimension four. This extension introduces a fourth alternating
+component and its partially transposed representations. A certificate in
+the qutrit quotient does not control these additional directions.
+
+Here we construct a rational certificate for the unrestricted two-ququart
+endpoint. The proof separates the physical reduction from a finite
+algebraic verification. Every complex matrix of rank at most two produces
+feasible matched moments. A complete rational basis represents their
+common symmetry average, and an exact positive-multiplier identity proves
+nonnegativity throughout the resulting relaxation.
+The certificate is accompanied by a second implementation that rebuilds
+its source and Gram maps before checking the rational identity.
+The two-copy theorems and the claimed qutrit endpoint are context for this
+construction, rather than premises of its proof.
+
+\section{Main result and the distillation criterion}
+\label{sec:main}
+
+On $\C^4\otimes\C^4$, the Werner family is
+\begin{align}
+ \rho(4,\alpha)=\frac{I+\alpha F}{16+4\alpha},
+ \qquad -1\leq\alpha\leq1\ ,
+ \label{eq:werner}
+\end{align}
+where $F|i,j\rangle=|j,i\rangle$.
+The state of interest is $\rho_* = \rho(4,-1/2)$.
+Let $H=H_1\otimes H_2\otimes H_3$, with $H_i=\C^4$.
+For $C\in\End(H)$, partial trace contracts matching row and column indices
+at the indicated sites. It is unnormalized, and $\Tr_\varnothing C=C$.
+The relevant quadratic form is
+\begin{align}
+ q_3(C)
+ &=\sum_{J\subseteq\{1,2,3\}}
+       \left(-\frac12\right)^{|J|}\norm{\Tr_JC}_F^2\nonumber\\
+ &=\norm C_F^2-\frac12\sum_{i=1}^3\norm{\Tr_iC}_F^2\nonumber\\
+ &\quad+\frac14\sum_{i<j}\norm{\Tr_{ij}C}_F^2
+   -\frac18|\Tr C|^2\ .
+ \label{eq:q3}
+\end{align}
+All matrix spaces in this paper are complex unless a real or rational
+coefficient space is explicitly specified. The Frobenius inner product
+is $\ip XY=\Tr(X^\dagger Y)$.
+
+\begin{theorem}[Three-copy endpoint]
+\label{thm:d4-three-certificate}
+Every $C\in M_{64}(\C)$ with $\rk C\leq2$ satisfies $q_3(C)\geq0$.
+Consequently, $\rho_*=(I-F/2)/14$ is three-copy undistillable.
+The proof is computer assisted and uses the exact rational certificate
+specified in \cref{sec:certificate,app:verification}.
+\end{theorem}
+
+The theorem covers arbitrary input and output support planes and arbitrary
+singular values. The inequality is sharp. For any unit
+$u,v\in\C^4\otimes\C^4$, the matrix
+\begin{align}
+ C_0=\frac{|0\rangle\langle0|+|1\rangle\langle1|}{2}
+                 \otimes |u\rangle\langle v|
+ \label{eq:product-zero}
+\end{align}
+has rank two, $\norm{C_0}_F^2=1/2$, and $q_3(C_0)=0$.
+Indeed, the partial-trace form factorizes across this tensor product,
+and its first factor has one-copy value
+$1/2-|1|^2/2=0$.
+For generic $u,v$ the resulting matrix is nonnormal.
+
+The connection to distillation follows directly from vectorization.
+The vector associated with $C$ is
+$|\psi_C\rangle=\sum_{x,y}C_{xy}|x\rangle_A|y\rangle_B$.
+Its Schmidt rank across $A_1A_2A_3|B_1B_2B_3$ equals $\rk C$.
+With $|\Omega\rangle=\sum_{j=0}^3|jj\rangle$, partial transposition
+on Bob's factor gives
+\begin{align}
+ \rho_*^{\Gamma_B}
+ =\frac1{14}\left(I-\frac12|\Omega\rangle\langle\Omega|\right)\ .
+ \label{eq:werner-pt}
+\end{align}
+Contracting the $\Omega$ factors for a subset $J$ leaves
+$\Tr_JC$ and its complex conjugate. Expansion therefore yields
+\begin{align}
+ \langle\psi_C|\bigl(\rho_*^{\Gamma_B}\bigr)^{\otimes3}
+                  |\psi_C\rangle
+ =\frac{q_3(C)}{14^3}\ .
+ \label{eq:distillation-form}
+\end{align}
+The Schmidt-rank-two criterion for finite-copy distillation
+\cite{HHH,DCLB} proves the stated consequence.
+The normalized vector $\Omega/2$ has eigenvalue $-1/14$ in
+\cref{eq:werner-pt}, confirming that $\rho_*$ has negative partial
+transpose.
+
+The endpoint also determines the full three-copy parameter threshold.
+
+\begin{corollary}[Two-ququart threshold]
+\label{cor:threshold}
+For $-1\leq\alpha\leq1$, the state $\rho(4,\alpha)$ is three-copy
+distillable if and only if $\alpha<-1/2$.
+In particular every state with $-1/2\leq\alpha<-1/4$ is NPT and
+three-copy undistillable.
+\end{corollary}
+
+\begin{proof}
+For $-1/2\leq\alpha\leq0$, a direct calculation gives
+\begin{align}
+ \rho(4,\alpha)
+ =p\rho_*+(1-p)\frac I{16},
+ \qquad p=\frac{-7\alpha}{4+\alpha}\in[0,1]\ .
+ \label{eq:local-replacement}
+\end{align}
+The parties can implement this map by shared randomness, retaining their
+input with probability $p$ and otherwise locally preparing maximally
+mixed states. Applying this local operation to each of three copies
+cannot turn a three-copy undistillable state into a distillable one.
+For $\alpha\geq0$, the partial transpose is positive.
+For $\alpha<-1/2$, the vector
+$(|00\rangle+|11\rangle)/\sqrt2$ gives the one-copy expectation
+$(1+2\alpha)/(16+4\alpha)<0$.
+Tensoring it with $|0\rangle_A|1\rangle_B$ on each remaining copy
+preserves Schmidt rank two and gives a negative three-copy expectation.
+Finally, the only potentially negative eigenvalue of
+$\rho(4,\alpha)^{\Gamma_B}$ is
+$(1+4\alpha)/(16+4\alpha)$, which proves the NPT statement.
+\end{proof}
+
+\subsection{Relation to the fourth and fifth problems}
+\label{sec:problem-reductions}
+
+Problem 4 of Ref.~\cite{Five} asks whether an NPT state can remain
+undistillable at every finite copy number. For a fixed state $\rho$,
+the distillation criterion is
+\begin{align}
+ \rho\text{ is distillable}
+ \quad\Longleftrightarrow\quad
+ &\exists n\geq1,\ \exists\psi,\quad \operatorname{SR}(\psi)\leq2,
+ \nonumber\\[-2pt]
+ &\langle\psi|(\rho^{\Gamma_B})^{\otimes n}|\psi\rangle<0\ .
+ \label{eq:general-distillation-criterion}
+\end{align}
+Here Schmidt rank refers to the bipartition between all of Alice's
+systems and all of Bob's systems. The two-dimensional local projections
+can act jointly on all copies held by each party. Their output is a
+two-qubit NPT state, which is distillable~\cite{HHH,DCLB}.
+For NPT bound entanglement, the same state must fail this test for
+every $n$. Establishing failure at one fixed $n$ does not supply that
+quantifier.
+
+The existence question can be restricted to Werner states without loss
+of generality~\cite{HHWerner,DCLB,PPHH}.
+For the nontrivial direction, suppose that $\rho$ is NPT and
+undistillable. A vector $\psi$ has negative expectation against
+$\rho^{\Gamma_B}$. After embedding the local spaces in equal dimension,
+a local filter $L$ can be chosen with
+$(L^\dagger\otimes I)\Omega_d$ proportional to $\psi$.
+Its successful output $\sigma$ satisfies
+$\Tr(F\sigma)=\langle\Omega_d|\sigma^{\Gamma_B}|\Omega_d\rangle<0$.
+Averaging $\sigma$ under $U\otimes U$ produces a Werner state and
+preserves this negative swap expectation, hence its NPT property.
+Filtering and averaging are local operations with classical
+communication. A distillation protocol for their output would also
+distill the input, which proves the required preservation of
+undistillability. The converse follows because Werner states are
+bipartite states.
+
+In the convention
+$\rho(d,\alpha)=(I+\alpha F)/(d^2+\alpha d)$, NPT is equivalent to
+$\alpha<-1/d$. One-copy distillability is equivalent to $\alpha<-1/2$.
+Indeed, the squared overlap of a normalized Schmidt-rank-two vector
+with the unnormalized $\Omega_d=\sum_{j=0}^{d-1}|jj\rangle$ is at most
+two, and that value is attained. Problem 4 is therefore equivalent to
+the existence of $d>2$ and $\alpha\in[-1/2,-1/d)$ such that
+\begin{align}
+ \langle\psi|[\rho(d,\alpha)^{\Gamma_B}]^{\otimes n}|\psi\rangle
+ \geq0
+ \label{eq:problem-four-quantifiers}
+\end{align}
+for every $n\geq1$ and every $\psi$ of Schmidt rank at most two.
+The dimension and the state are chosen once, before the universal
+quantifier over the copy number.
+
+Problem 5 selects $d=4$, $\alpha=-1/2$, and $n=2$~\cite{Five}.
+Theorem~\ref{thm:d4-three-certificate} concerns the same state at $n=3$.
+Selecting this endpoint is a sufficient route to a positive solution of
+Problem 4 if it works for every $n$. It is not an equivalent restriction
+of its existence question. Failure of this particular route would not
+exclude other NPT bound entangled Werner states.
+
+The distinguished dimension four makes the partial transpose proportional
+to a reflection. With $P=|\Omega\rangle\langle\Omega|/4$, its
+unnormalized form is $I-2P$. For two copies,
+\begin{align}
+ 14^2(\rho_*^{\Gamma_B})^{\otimes2}&=I-2Q_2,\nonumber\\
+ Q_2&=P\otimes(I-P)+(I-P)\otimes P\ .
+ \label{eq:half-property-projector}
+\end{align}
+Two-copy undistillability is equivalent to the half-property
+$\langle\psi|Q_2|\psi\rangle\leq1/2$ for every normalized
+Schmidt-rank-two vector~\cite{PPHH}.
+Under vectorization, the normalized vectors in $\ran Q_2$ have coefficient
+matrices $K=A\otimes I_4+I_4\otimes B$, where
+$\Tr A=\Tr B=0$ and $\norm A_F^2+\norm B_F^2=1/4$.
+Optimizing the squared overlap of a fixed vector with Schmidt-rank-two
+vectors gives the sum of its two largest squared Schmidt coefficients.
+Exchanging the two maximizations consequently gives the equivalent
+matrix inequality
+\begin{align}
+ s_1(K)^2+s_2(K)^2\leq\frac12\ .
+ \label{eq:two-copy-singular-values}
+\end{align}
+These are singular values of $K$, or square roots of eigenvalues of
+$K^\dagger K$. Eigenvalues of $K$ alone do not suffice for nonnormal
+matrices. This is the reduction in Eqs.~(50)--(52) of Ref.~\cite{PPHH}.
+
+For any copy number, vectorization provides a second exact matrix
+formulation. If $C\in M_{4^n}(\C)$, the same contraction argument as in
+\cref{eq:distillation-form} gives
+\begin{align}
+ q_n(C)&=\sum_{J\subseteq\{1,\ldots,n\}}
+          \left(-\frac12\right)^{|J|}\norm{\Tr_J C}_F^2,\nonumber\\
+ \langle\psi_C|(\rho_*^{\Gamma_B})^{\otimes n}|\psi_C\rangle
+ &=14^{-n}q_n(C)\ .
+ \label{eq:general-partial-trace-form}
+\end{align}
+The rank of $C$ equals the Schmidt rank of $\psi_C$. Thus nonnegativity
+of $q_n$ on all complex matrices of rank at most two is equivalent to
+$n$-copy undistillability of $\rho_*$. No Hermiticity, normality, or
+equality of singular values is assumed. The case $n=2$ gives Problem 5,
+and $n=3$ gives the present theorem. The matched moments below provide an
+outer relaxation of this exact matrix problem. Their positivity gives
+a sufficient certificate and does not assert that every feasible moment
+has a physical realization.
+
+We now establish \cref{thm:d4-three-certificate}.
+The proof has three components. An exact lifting produces valid positive
+moments for every matrix in the theorem. Complete source coordinates
+represent their symmetry average. A rational certificate expresses the
+objective as a sum of positive pairings modulo valid equalities.
+
+\section{Matched moments for arbitrary complex rank-two matrices}
+\label{sec:matched-four}
+
+\subsection{An isometric lifting}
+
+Homogeneity allows a nonzero $C$ to be normalized by
+$\norm C_F^2=1/2$.
+An isometry $A\in M_{64,2}(\C)$ with $\ran C\subseteq\ran A$
+and the matrix $B=2C^\dagger A$ then satisfy
+\begin{align}
+ C=\frac12AB^\dagger,
+ \qquad A^\dagger A=I_2,
+ \qquad \norm B_F^2=2\ .
+ \label{eq:isometric-lift}
+\end{align}
+The first identity follows from $AA^\dagger C=C$.
+For the last one,
+$\norm B_F^2=4\Tr(C^\dagger AA^\dagger C)=4\norm C_F^2$.
+A rank-one range can always be completed to the required two-dimensional
+range. There is no condition $B^\dagger B=I_2$.
+In particular the lifting preserves unequal singular values of $C$.
+
+The unit vectors
+$a=\vecop(A)/\sqrt2$ and $b=\vecop(B)/\sqrt2$ lie in
+$\mathcal V=H\otimes Q$, where $Q=\C^2$ and $\dim\mathcal V=128$.
+The reduced state of $a$ on $Q$ is $I_2/2$.
+For two replicas of $\mathcal V$, let $F_i$ swap their $H_i$ factors
+and let $F_Q$ swap their $Q$ factors.
+The swap identity takes the form
+\begin{align}
+ \langle a\otimes b|F_Q\prod_{j\in J}F_j|a\otimes b\rangle
+ =\norm{\Tr_JC}_F^2
+ \qquad(J\subseteq\{1,2,3\})\ .
+ \label{eq:matched-swap-subsets}
+\end{align}
+To check the conjugations, let $s,t$ index the traced sites and $u,v$
+the remaining sites. Both sides equal
+\begin{align}
+ \frac14\sum_{s,t,u,v,\mu,\nu}
+ A_{su,\mu}\overline{B_{sv,\mu}}
+ \overline{A_{tu,\nu}}B_{tv,\nu}\ .
+ \label{eq:swap-indices}
+\end{align}
+It follows that
+\begin{align}
+ q_3(C)=\langle a\otimes b|
+     F_Q\prod_{i=1}^3\left(I-\frac12F_i\right)|a\otimes b\rangle\ .
+ \label{eq:matched-objective}
+\end{align}
+
+\subsection{Moment equalities and positive maps}
+
+The matched-moment construction uses four replicas of $\mathcal V$.
+These replicas are auxiliary moments and are distinct from the three
+resource copies in the distillation problem.
+For $P_v=|v\rangle\langle v|$, the three moments are
+\begin{align}
+ Y_{31}&=P_a\otimes P_a\otimes P_a\otimes P_b,\nonumber\\
+ Y_{22}&=P_a\otimes P_a\otimes P_b\otimes P_b,\nonumber\\
+ Y_{13}&=P_b\otimes P_b\otimes P_b\otimes P_a\ .
+ \label{eq:moments}
+\end{align}
+The order in $Y_{13}$ is part of the convention.
+Each moment and every partial transpose on complete replicas are
+positive semidefinite. This follows because each is a tensor product
+of positive rank-one projectors, and transposition on a complete replica
+replaces its vector by its complex conjugate.
+
+The normalization of $a,b$ gives two matching marginals. Deleting
+replica 3 from $Y_{31}$ and $Y_{22}$ leaves $P_a\otimes P_a\otimes P_b$.
+Deleting replica 2 from $Y_{22}$ leaves $P_a\otimes P_b\otimes P_b$.
+Deleting replica 2 from $Y_{13}$ and ordering its remaining replicas as
+$(4,1,3)$ gives the same operator.
+For a replica $r$ occupied by $a$, the conditional equality is
+\begin{align}
+ \Tr_{H_r}Y_f
+ =\frac{I_{Q_r}}2\otimes\Tr_{H_rQ_r}Y_f\ .
+ \label{eq:matched-conditional}
+\end{align}
+The tensor factors on the right are restored to their original positions.
+The construction imposes this equality at $r=1$ for $f=31,22$ and at
+$r=4$ for $f=13$. The identical-factor symmetries imply the analogous
+equalities at the other $a$ replicas. No such condition is imposed at a
+$b$ replica.
+
+A coupled positive block retains information shared by the three moments
+\cite{Candidate}. The vectors
+$z=a\otimes a\otimes b\otimes\bar a$ and
+$w=b\otimes b\otimes a\otimes\bar b$ give
+\begin{align}
+ \mathcal J(Y)=
+ \begin{pmatrix}zz^\dagger&zw^\dagger\\wz^\dagger&ww^\dagger\end{pmatrix}
+ \succeq0\ .
+ \label{eq:matched-joint}
+\end{align}
+All four entries are linear images of the moments.
+The convention
+$V_p|x_1,x_2,x_3,x_4\rangle
+=|x_{p^{-1}(1)},x_{p^{-1}(2)},x_{p^{-1}(3)},x_{p^{-1}(4)}\rangle$
+fixes the permutations $\tau=(3\ 4)$ and $\pi=(1\ 3\ 2\ 4)$.
+The linear maps are
+\begin{align}
+ \mathcal D(Y)&=(V_\tau YV_\tau^{\mathsf T})^{\Gamma_4},
+ &\mathcal K(Y)&=(YV_\pi)^{\Gamma_4}\ ,
+ \label{eq:joint-maps}
+\end{align}
+and the block is
+\begin{align}
+ \mathcal J(Y)=
+ \begin{pmatrix}
+ \mathcal D(Y_{31})&\mathcal K(Y_{22})\\
+ \mathcal K(Y_{22})^\dagger&\mathcal D(Y_{13})
+ \end{pmatrix}\ .
+ \label{eq:joint-linear}
+\end{align}
+For example, with arbitrary row and column multi-indices $x,y$ in
+$\mathcal V^{\otimes4}$, the upper right entry has matrix element
+\begin{align}
+ a_{x_1}a_{x_2}b_{x_3}\bar a_{x_4}
+ \bar b_{y_1}\bar b_{y_2}\bar a_{y_3}b_{y_4}
+ =z_x\bar w_y\ .
+ \label{eq:joint-cross-indices}
+\end{align}
+This follows by right multiplication by $V_\pi$ followed by transposition
+on replica 4. The diagonal identities follow by exchanging replicas 3
+and 4 before that transposition.
+Thus the block inequality holds for general complex $a,b$.
+
+\subsection{Common averaging}
+
+We apply the same averaging operations to all three moments.
+For $U=U_1\otimes U_2\otimes U_3\otimes U_Q$, with $U_i\in U(4)$
+and $U_Q\in U(2)$, average $Y_f$ under $U^{\otimes4}$.
+Also average over permutations of the three physical sites and over
+complex conjugation. The resulting moments are denoted $\overline Y_f$.
+Every equality above is preserved. For a complete-replica transpose,
+unitary conjugation becomes conjugation by the corresponding tensor
+product of $U$ and $\bar U$, which preserves positivity.
+
+The coupled block is preserved as a whole. Under $a\mapsto Ua$ and
+$b\mapsto Ub$, both $z$ and $w$ transform by
+$U^{\otimes3}\otimes\bar U$. Physical-site permutations likewise act
+identically on the two components. Complex conjugation sends the whole
+block to its complex conjugate. The average is therefore positive.
+Its entries remain the same linear images of the averaged moments.
+This common averaging is necessary to preserve the cross entry.
+
+The objective is unchanged. It is real and invariant under all these
+operations. In the four-replica notation it is
+$\Tr(OY_{31})$, where
+\begin{align}
+ O=F_Q^{(1,4)}\prod_{i=1}^3\left(I-\frac12F_i^{(1,4)}\right)\ .
+ \label{eq:four-replica-objective}
+\end{align}
+The two unused replicas have unit trace.
+Consequently every original matrix gives averaged moments with objective
+$q_3(C)$, valid homogeneous equalities, and valid positive blocks.
+This is an outer relaxation of the physical moment set.
+No converse realization of arbitrary feasible moments is needed.
+In particular, using real symmetric averaged moments imposes no reality
+condition on $C$.
+
+\section{Complete rational coordinates and positive compressions}
+\label{sec:coordinates}
+
+\subsection{Source generators and their normalization}
+
+Regroup the four replicas by physical site and auxiliary qubit.
+Schur--Weyl duality places the local unitary commutant in the span of
+\begin{align}
+ D_{\boldsymbol p}
+ =V_{p_1}^{(4)}\otimes V_{p_2}^{(4)}\otimes V_{p_3}^{(4)}
+                         \otimes V_{p_Q}^{(2)},
+ \qquad \boldsymbol p\in\Sfour^4\ .
+ \label{eq:diagrams}
+\end{align}
+The 24 permutations at $d=4$ are independent.
+The auxiliary permutation span at $d=2$ has dimension 14.
+
+Let $R_{31}=R_{13}$ be the subgroup of $\Sfour$ fixing replica 4,
+and let $R_{22}$ preserve the two sets $\{1,2\}$ and $\{3,4\}$.
+The global identical-factor projector is
+$\Pi_f=|R_f|^{-1}\sum_{r\in R_f}V_r^{(\mathcal V)}$.
+The moment $\overline Y_f$ is supported on its range.
+For $W_\sigma$ permuting the physical sites simultaneously in all replicas,
+the source projection is
+\begin{align}
+ \mathcal P_f(X)=\frac1{12}\sum_{\sigma\in\Sthree}
+ W_\sigma\bigl[\Pi_fX\Pi_f+(\Pi_fX\Pi_f)^{\mathsf T}\bigr]
+ W_\sigma^{\mathsf T}\ .
+ \label{eq:source-projection}
+\end{align}
+It is an idempotent real linear map on the local commutant.
+The source generators are $B_{f,k}=\mathcal P_f(D_{\boldsymbol p_{f,k}})$.
+The chosen words $\boldsymbol p_{f,k}$ are recorded in the certificate.
+
+\begin{lemma}[Complete source spaces]
+\label{lem:source-complete}
+The selected generators form rational bases of the source spaces for
+$\overline Y_{31},\overline Y_{22},\overline Y_{13}$.
+Their dimensions are $667,1407,667$, respectively.
+\end{lemma}
+
+\begin{proof}
+The symmetry properties place each averaged moment in
+$\ran\mathcal P_f$. The trace of this idempotent is its rank.
+The exact trace calculation in \cref{app:source} gives $667$ for
+$f=31,13$ and $1407$ for $f=22$.
+Reducing the selected generators in a literal local permutation basis
+produces integer coefficient matrices after columnwise denominator
+clearing. Their square minors have nonzero determinants $686863$,
+$137174$, and $686863$ modulo $1000033$.
+These determinants prove independence over $\Q$ and $\R$.
+The independence lower bounds equal the source dimension upper bounds,
+which proves spanning.
+\end{proof}
+
+The stored coordinate convention includes a positive scale
+$s=128^4=268435456$.
+For $x=(x_{31},x_{22},x_{13})\in\R^{2741}$, define
+$\mathcal Y_f(x)=\sum_k x_{f,k}B_{f,k}$.
+The coordinates of physical moments obey
+\begin{align}
+ \mathcal Y_f(x)=s\overline Y_f\ .
+ \label{eq:matched-source-scale}
+\end{align}
+The stored objective has
+$c_{31,k}=s^{-1}\Tr(OB_{31,k})$ and $c_{22,k}=c_{13,k}=0$.
+It follows that $c^{\mathsf T}x=q_3(C)$ exactly.
+Equality and positive maps act on $\mathcal Y_f(x)$.
+Their common factor $s$ preserves the homogeneous equalities and
+positive semidefiniteness.
+
+Expanding the conditional and matching maps in independent output
+coordinates gives a $2912\times2741$ integer matrix $E$ after a common
+denominator $1152$ is cleared. Every physical coordinate vector satisfies
+$Ex=0$. Its exact rational rank is 272.
+The certificate uses the submatrix $E_0$ comprising the 272 selected rows
+listed in its equality file. Their rank is also 272.
+Explicit partial-trace and ordering conventions are given in
+\cref{app:equalities}.
+
+At dimension four, the source space includes an additional local
+alternating component. The antisymmetrizer
+$\mathcal A_4^{(d)}=(1/24)\sum_{p\in\Sfour}\operatorname{sgn}(p)V_p^{(d)}$
+is zero at $d=3$ and has rank one at $d=4$.
+Its marginal is
+\begin{align}
+ \Tr_r\mathcal A_4^{(d)}=\frac{d-3}{4}\mathcal A_3^{(d)}\ .
+ \label{eq:alternating-marginal}
+\end{align}
+Support on the alternating subspace and unitary invariance imply
+proportionality, and traces give the factor
+$\binom d4/\binom d3$.
+The dimension-four construction retains this direction and its partially
+transposed representations. In particular the source calculation uses
+all 24 physical permutations rather than the 23-dimensional qutrit
+quotient.
+
+\subsection{Literal representations and Gram maps}
+
+For each used local dimension $d$ and replica cut $T$, the archive supplies
+rational embeddings $J_\lambda$ and local matrices $\rho_\lambda(p)$
+satisfying the literal identities
+\begin{align}
+ (V_p^{(d)})^{\Gamma_T}J_\lambda
+   =J_\lambda\rho_\lambda(p),
+ \qquad G_\lambda=J_\lambda^{\mathsf T}J_\lambda\succ0\ .
+ \label{eq:local-intertwiner}
+\end{align}
+Here $J_\lambda$ has full column rank.
+All 24 identities are verified for each of the 50 local embeddings.
+Tensoring four such embeddings gives $L_t$ and
+$G_t=L_t^{\mathsf T}L_t$ for each parent block.
+For a source block obtained from $\mathcal Y_f(x)^{\Gamma_T}$,
+the rational matrix $\mathscr R_t(x)$ then obeys
+\begin{align}
+ L_t^{\mathsf T}\mathcal Y_f(x)^{\Gamma_T}L_t
+   =G_t\mathscr R_t(x)\ .
+ \label{eq:literal-compression}
+\end{align}
+The right side is symmetric, even when $\mathscr R_t(x)$ is not
+symmetric in its nonorthonormal coordinates.
+
+For each retained block the archive gives a rational frame $N_t$.
+Its positive map is
+\begin{align}
+ \widehat M_t(x)=N_t^{\mathsf T}G_t\mathscr R_t(x)N_t\ .
+ \label{eq:compressed-map}
+\end{align}
+This is a congruence of a positive physical moment block, multiplied by
+$s$. For joint blocks, the same construction uses
+$\operatorname{diag}(L_t,L_t)$ in \cref{eq:joint-linear} and a single
+joint frame $N_t$. The off-diagonal entry is retained before compression.
+The explicit metric-adjoint convention is stated in \cref{app:gram}.
+
+No completeness property of the frames is needed for this positivity
+implication. Any rational frame defines a valid positive compression.
+Their selection and the equality families used to find them concern the
+discovery of a certificate, not the coverage of the original matrices.
+Completeness of the source coordinates in \cref{lem:source-complete}
+ensures that a functional identity checked there holds for every
+physical averaged moment.
+
+\section{A rational Gram certificate for the three-copy endpoint}
+\label{sec:certificate}
+
+The finite certificate consists of rational symmetric matrices $Z_t$,
+rational congruences $R_t$, and a rational equality multiplier $\eta$.
+The frames, embeddings, source words, and equality row labels specify the
+linear maps appearing with these multipliers.
+The counts relevant to the proof are collected in \cref{tab:certificate}.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lr}
+\toprule
+Certificate quantity & Value\\
+\midrule
+Source dimensions $(31,22,13)$ & $(667,1407,667)$\\
+Total source coordinates & $2741$\\
+Equality matrix size & $2912\times2741$\\
+Selected equality rows & $272$\\
+Positive Gram multipliers & $1239$\\
+Multipliers on joint blocks & $111$\\
+Largest Gram order & $43$\\
+Independent symmetric Gram entries & $18753$\\
+Rows in the positivity checks & $4231$\\
+\bottomrule
+\end{tabular}
+\caption{Exact certificate dimensions. These counts describe the supplied
+construction and are not asserted to be minimal.}
+\label{tab:certificate}
+\end{table}
+
+\begin{proposition}[Finite rational certificate]
+\label{prop:certificate}
+The supplied data satisfy the functional identity
+\begin{align}
+ c^{\mathsf T}x
+ =\sum_{t=1}^{1239}\Tr\bigl[Z_t\widehat M_t(x)\bigr]
+       +\eta^{\mathsf T}E_0x
+ \qquad\text{for every }x\in\R^{2741}\ .
+ \label{eq:exact-d4-three-certificate}
+\end{align}
+For each multiplier, $Z_t=Z_t^{\mathsf T}\in M_{k_t}(\Q)$ and its
+saved rational congruence satisfies, for $1\leq i\leq k_t$,
+\begin{align}
+ (R_tZ_tR_t^{\mathsf T})_{ii}
+ -\sum_{j\ne i}|(R_tZ_tR_t^{\mathsf T})_{ij}|
+ >\frac{9999992}{10000000}\ .
+ \label{eq:exact-congruence-positive}
+\end{align}
+In particular every $Z_t$ is positive definite.
+\end{proposition}
+
+\begin{proof}[Exact verification]
+The source generators, literal module matrices, and frames determine
+rational coefficient maps. They are rebuilt using integer contractions
+with explicit bounds excluding overflow, as described in \cref{app:gram}.
+For each standard coordinate vector $e_k\in\R^{2741}$, the verifier
+computes the right side of \cref{eq:exact-d4-three-certificate} over
+$\Q$ and checks equality to $c_k$. All 2741 differences are exactly zero.
+Linearity proves the identity for arbitrary real coordinates.
+
+The verifier reads the rational entries of $Z_t$ and $R_t$, checks their
+dimensions and symmetry, and evaluates the left side of
+\cref{eq:exact-congruence-positive} over $\Q$.
+All 4231 inequalities satisfy the stated rational lower bound.
+A real symmetric matrix with positive diagonal-dominance margins is
+positive definite. Indeed, bounding each cross term in its quadratic
+form by $2|v_i v_j|\leq v_i^2+v_j^2$ gives a strictly positive lower bound
+for every nonzero vector.
+Thus $R_tZ_tR_t^{\mathsf T}\succ0$.
+This forces $R_t$ to be nonsingular, and congruence implies $Z_t\succ0$.
+The saved inputs, the verification procedure, and the resulting records
+are specified in \cref{app:verification}.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:d4-three-certificate}]
+For $C\ne0$, first normalize $\norm C_F^2=1/2$.
+The lifting and common averaging in \cref{sec:matched-four} produce
+physical moments. By \cref{lem:source-complete}, they have source
+coordinates $x$ satisfying $Ex=0$ and $c^{\mathsf T}x=q_3(C)$.
+Every $\widehat M_t(x)$ is positive semidefinite by
+\cref{eq:literal-compression,eq:compressed-map}, with the same statement
+for the joint compressions.
+\Cref{prop:certificate} therefore gives
+\begin{align}
+ q_3(C)=\sum_{t=1}^{1239}
+ \Tr\!\left[Z_t^{1/2}\widehat M_t(x)Z_t^{1/2}\right]\geq0\ .
+\end{align}
+Homogeneity restores an arbitrary norm, and $C=0$ is immediate.
+Equation~\eqref{eq:distillation-form} and the finite-copy distillation
+criterion complete the proof.
+\end{proof}
+
+The positivity of the stored multipliers is strict in their compressed
+coordinates. The resulting physical inequality is not strict because
+some physical moment compressions vanish, including those arising from
+\cref{eq:product-zero}.
+The proof uses no floating-point eigenvalue test, numerical rank decision,
+or optimization stopping tolerance.
+Numerical optimization was used to discover the data, after which an
+exact affine correction and exact positive-congruence checks produced
+the certificate. Details of that distinction are given in
+\cref{app:discovery}.
+
+\section{Discussion}
+\label{sec:discussion}
+
+The three-copy endpoint at local dimension four is controlled by an
+exact positive identity on matched moments of arbitrary rank-two
+coefficient matrices. The joint block relates the three moment families
+through off-diagonal entries, while the conditional auxiliary-qubit
+marginals encode the isometric support of the original matrix.
+The dimension-four alternating component is retained throughout.
+These ingredients permit a certificate that applies without structural
+assumptions on the input matrix.
+
+The result establishes the full three-copy threshold for the two-ququart
+Werner family. It also applies to smaller local coefficient spaces that
+embed isometrically in each $\C^4$ factor, since such embeddings preserve
+all the partial-trace norms in \cref{eq:q3}.
+For the NPT interval $-1/2\leq\alpha<-1/4$, collective processing of
+three copies does not enable distillation.
+The proof does not control four or arbitrarily many resource copies.
+NPT bound entanglement requires undistillability at every finite copy
+number and is therefore not established here.
+
+Extending the certificate to larger copy numbers requires joint
+control of the positive compressions and the matched-moment equalities.
+Whether these constraints admit a positive recursion remains open.
+
+\appendix
+
+\section{Permutation conventions and homogeneous equalities}
+\label{app:equalities}
+
+\subsection{Diagram conventions}
+
+All permutation lists in the data are lexicographically ordered.
+A stored permutation is a tuple $(p(0),p(1),p(2),p(3))$, with labels
+starting at zero. A stored word is a tuple of four indices into this
+24-element list, in the order of three physical sites followed by $Q$.
+The permutation matrices obey $V_pV_q=V_{p\circ q}$ and
+$V_p^{\mathsf T}=V_{p^{-1}}$.
+The maps in \cref{eq:joint-maps} therefore replace each local word entry
+according to
+\begin{align}
+ p\longmapsto\tau p\tau^{-1}
+ \quad\text{or}\quad p\longmapsto p\pi
+ \label{eq:joint-word-maps}
+\end{align}
+before taking the indicated partial transpose.
+In the stored labels, $\tau=(0,1,3,2)$ and $\pi=(2,3,1,0)$.
+For a partially transposed diagram, permutation multiplication is
+performed before transposition. The matrices representing partially
+transposed diagrams are not assumed to obey the original permutation
+group multiplication law.
+
+The real local permutation span is denoted $\mathfrak C_d$.
+For $d=4$, all 24 diagrams are independent because their actions on
+$|0,1,2,3\rangle$ give distinct basis vectors.
+For $d=2$, an independent list of permutation indices is
+\begin{align}
+ \mathcal I_2=(0,3,4,7,8,9,11,12,13,15,16,18,20,23)\ .
+ \label{eq:auxiliary-basis}
+\end{align}
+Its Gram matrix is nonsingular, and all 24 literal matrices lie in its
+span. Both facts are checked over $\Q$.
+If $Q_{a,p}$ denotes the coordinate of $V_p^{(2)}$ in this list, then
+\begin{align}
+ V_p^{(2)}=\sum_{a=1}^{14}Q_{a,p}V_{\mathcal I_2(a)}^{(2)}\ .
+ \label{eq:auxiliary-quotient}
+\end{align}
+The second implementation obtains $Q$ directly from the $16\times16$
+permutation matrices and verifies the reconstructed matrices entrywise.
+
+\subsection{Matching and conditional maps}
+
+The equality maps can be specified before any coordinate reduction.
+Let $\mathcal T_r$ trace the entire replica $\mathcal V_r$ and retain
+the other replicas in increasing order. Let $\mathcal R$ on
+$\mathcal T_2Y_{13}$ put its original labels in the order $(4,1,3)$.
+The two matching equations are
+\begin{align}
+ \mathcal T_3Y_{31}-\mathcal T_3Y_{22}&=0,\nonumber\\
+ \mathcal T_2Y_{22}-\mathcal R\mathcal T_2Y_{13}\mathcal R^{\mathsf T}&=0\ .
+ \label{eq:matching-equalities}
+\end{align}
+For a selected $a$ replica, the conditional map is
+\begin{align}
+ \mathcal S_r(Y)=\Tr_{H_r}Y
+ -\iota_r\!\left(\frac{I_{Q_r}}2\otimes\mathcal T_rY\right)\ ,
+ \label{eq:conditional-map}
+\end{align}
+where $\iota_r$ restores the original positions of the remaining factors.
+The three conditional equations are
+$\mathcal S_1(Y_{31})=0$, $\mathcal S_1(Y_{22})=0$, and
+$\mathcal S_4(Y_{13})=0$.
+
+After tracing the physical factors of one replica, each remaining
+physical site has three replicas. Its six permutation diagrams are
+independent at $d=4$.
+Averaging over physical-site permutations leaves
+$\binom{6+3-1}{3}=56$ orbit coordinates.
+The untraced four-replica auxiliary algebra has dimension 14, giving
+$56\cdot14=784$ output coordinates for each conditional map.
+In a matching map the auxiliary system also has three replicas.
+Its permutation span has dimension five, because the three-fold
+antisymmetrizer vanishes at $d=2$. Thus each matching map has
+$56\cdot5=280$ coordinates.
+The total output size is $3\cdot784+2\cdot280=2912$.
+
+The stored row order consists of the three conditional maps for
+$(31,22,13)$, followed by the $aab$ and $abb$ matching maps.
+Within each output, physical permutation triples are in increasing
+lexicographic order after sorting, followed by the auxiliary index.
+Coefficients refer to orbit averages, rather than orbit sums.
+Expanding the five maps on each source basis generator and clearing the
+common denominator $1152$ gives the integer matrix $E$.
+The selected row labels in the certificate also start at zero.
+The multiplier $\eta$ is paired with these integer rows, so no additional
+factor $1152$ belongs in \cref{eq:exact-d4-three-certificate}.
+
+The model uses these homogeneous equalities. Although physical moments
+have unit trace, an affine trace constraint is not used in the
+certificate identity. Multiplication of all moments by the positive
+constant $s$ in \cref{eq:matched-source-scale} is therefore compatible
+with every equality in the proof.
+The source and equality data are reconstructed from literal partial
+traces in the independent verifier, including all orderings in
+\cref{eq:matching-equalities}.
+
+\section{Completeness of the source basis}
+\label{app:source}
+
+\subsection{An exact projection-rank calculation}
+
+Before applying the identical-factor projectors, the physical-site
+invariant part of the commutant is
+$\Sym^3(\mathfrak C_4)\otimes\mathfrak C_2$.
+The three operations in \cref{eq:source-projection} commute after
+averaging over the identical-factor subgroups. The transpose operation
+commutes with the sandwich projector because $\Pi_f$ is real symmetric.
+Physical-site permutations commute with simultaneous replica permutations.
+Consequently $\mathcal P_f$ is idempotent on the relevant commutant.
+
+For $h,k\in R_f$ and $\epsilon\in\{0,1\}$, the local linear map is
+\begin{align}
+ K_{h,k,\epsilon}^{(d)}(X)=V_h^{(d)}X^{\mathsf T\epsilon}V_k^{(d)}\ ,
+ \label{eq:local-linear-action}
+\end{align}
+where $X^{\mathsf T0}=X$ and $X^{\mathsf T1}=X^{\mathsf T}$.
+Its traces on the two local permutation spans determine the global
+projection trace. With
+$t_j=\Tr[(K_{h,k,\epsilon}^{(4)})^j]$ and
+$u=\Tr[K_{h,k,\epsilon}^{(2)}]$, the symmetric-cube identity is
+\begin{align}
+ \Tr\bigl[\Sym^3(K_{h,k,\epsilon}^{(4)})\bigr]
+ =\frac{t_1^3+3t_1t_2+2t_3}{6}\ .
+ \label{eq:symmetric-cube-trace}
+\end{align}
+To derive it, insert the average of the six factor permutations into
+$K^{\otimes3}$. The identity permutation contributes $t_1^3$, the three
+transpositions contribute $t_1t_2$, and the two three-cycles contribute
+$t_3$.
+Therefore
+\begin{align}
+ \dim\ran\mathcal P_f
+ =\frac1{2|R_f|^2}\sum_{h,k\in R_f}\sum_{\epsilon=0}^1
+       \frac{t_1^3+3t_1t_2+2t_3}{6}\,u\ .
+ \label{eq:source-rank-formula}
+\end{align}
+This calculation needs only literal permutation actions and the auxiliary
+quotient in \cref{eq:auxiliary-quotient}.
+At $d=4$, $K$ sends $V_p$ to $V_{hpk}$ when $\epsilon=0$ and to
+$V_{hp^{-1}k}$ when $\epsilon=1$.
+Its power traces count fixed labels in the 24-element basis.
+At $d=2$, the same images are reduced in the 14-element basis before
+taking the trace.
+The exact sums are given in \cref{tab:source-traces}.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{crrrr}
+\toprule
+Family & $\epsilon=0$ sum & $\epsilon=1$ sum & $2|R_f|^2$ & Rank\\
+\midrule
+$31$ & $37584$ & $10440$ & $72$ & $667$\\
+$22$ & $37984$ & $7040$ & $32$ & $1407$\\
+$13$ & $37584$ & $10440$ & $72$ & $667$\\
+\bottomrule
+\end{tabular}
+\caption{The two sums include the factor $1/6$ from
+\cref{eq:symmetric-cube-trace}. Adding them and dividing by
+$2|R_f|^2$ gives the exact source dimension.}
+\label{tab:source-traces}
+\end{table}
+
+\subsection{Independent selected generators}
+
+For each word in the saved basis list, the verifier reconstructs
+$\mathcal P_f(D_{\boldsymbol p})$ by enumerating both sandwich subgroup
+elements, all six physical-site permutations, and the transpose choice.
+The common diagram denominator is $12|R_f|^2$, hence 432 for $31,13$
+and 192 for $22$.
+The resulting full diagram coefficient matrix is compared exactly with
+the stored source table.
+
+For the independence check, the auxiliary diagrams are reduced through
+\cref{eq:auxiliary-quotient} and identical physical orbits are collected.
+If an orbit coefficient is collected as a total weight, its basis element
+is the corresponding orbit average. This convention fixes the factors
+for orbits containing repeated permutations.
+After clearing denominators in each column, the saved pivot rows select
+a square integer matrix. Its determinant is evaluated modulo $1000033$.
+The nonzero values quoted in \cref{lem:source-complete} prove that the
+integer determinants are nonzero.
+Only this lower-bound implication is used from modular arithmetic.
+The matching upper bounds come from the rational idempotent trace,
+not from a numerical or modular rank estimate alone.
+
+Finally, the objective can be reconstructed independently of any moment
+sample. For each generator,
+$c_{31,k}=s^{-1}\Tr(OB_{31,k})$ is evaluated using literal local matrix
+traces, while the other two families have zero objective coefficients.
+For a local permutation, $\Tr V_p^{(d)}=d^{\#\mathrm{cycles}(p)}$.
+Insertion of a swap replaces $p$ by its product with that transposition.
+These exact traces verify the normalization as well as the sign of every
+term in \cref{eq:q3}.
+
+\section{Local embeddings and reconstruction of the Gram maps}
+\label{app:gram}
+
+\subsection{Physical meaning of the saved representations}
+
+The retained source cuts, stated with replica labels starting at one,
+are listed in \cref{tab:cuts}. Every cut transposes an entire replica of
+$\mathcal V$, including its auxiliary qubit. Joint blocks use the
+single transpose at replica 4 that occurs in \cref{eq:joint-maps}.
+A transpose at only a physical subfactor would not have the positivity
+justification used in this proof.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{cl}
+\toprule
+Family & Complete-replica cuts\\
+\midrule
+$31,13$ & $\varnothing,\{1\},\{4\},\{1,2\}$\\
+$22$ & $\varnothing,\{1\},\{3\},\{1,2\},\{1,3\}$\\
+Joint & $\{4\}$ after the word maps in \cref{eq:joint-word-maps}\\
+\bottomrule
+\end{tabular}
+\caption{Positive maps used in the certificate. Selecting a subset of
+valid positive maps does not restrict the original physical inputs.}
+\label{tab:cuts}
+\end{table}
+
+For each cut type, the local module dimensions are
+\begin{align}
+ d=4\quad&
+ \begin{cases}
+ 1,1,2,3,3 & |T|=0,1,\\
+ 1,1,1,1,2,4 & |T|=2,
+ \end{cases}\nonumber\\
+ d=2\quad&1,2,3\qquad(|T|=0,1,2)\ .
+ \label{eq:local-module-sizes}
+\end{align}
+The embeddings for the different positions of a cut are included
+explicitly. Their squared dimensions sum to 24 at $d=4$ and 14 at $d=2$.
+The positivity argument uses the literal full-column-rank embeddings,
+so it does not require a classification or completeness assertion for
+the local module list.
+
+All entries of $J_\lambda$, $G_\lambda$, and $\rho_\lambda(p)$ are
+rational. The verifier constructs $(V_p^{(d)})^{\Gamma_T}$ from the
+identity tensor by permuting output indices and then exchanging the
+row and column indices at each transposed replica.
+It checks \cref{eq:local-intertwiner} and full column rank of $J_\lambda$.
+Thus $G_\lambda\succ0$ follows from a literal Gram matrix, without an
+eigenvalue tolerance.
+
+In nonorthonormal coordinates the adjoint relation is
+\begin{align}
+ G_t\mathscr R_t(X^\dagger)
+       =\mathscr R_t(X)^\dagger G_t\ .
+ \label{eq:metric-adjoint}
+\end{align}
+For real averaged source coordinates, let $A_t(x),C_t(x),D_t(x)$ be the
+represented top diagonal, cross, and bottom diagonal entries of a joint
+block. Before the saved joint frame is applied, the symmetric compression
+is
+\begin{align}
+ H_t(x)=
+ \begin{pmatrix}
+ G_tA_t(x)&G_tC_t(x)\\
+ C_t(x)^{\mathsf T}G_t&G_tD_t(x)
+ \end{pmatrix}\ .
+ \label{eq:joint-metric-block}
+\end{align}
+It equals a congruence of the literal physical joint block by
+$\operatorname{diag}(L_t,L_t)$.
+The positive map used in the certificate is
+$\widehat M_t(x)=N_t^{\mathsf T}H_t(x)N_t$.
+In particular the lower cross entry is the transpose of $G_tC_t(x)$,
+not a bare transpose of a nonorthonormal representation followed by an
+unjustified metric placement.
+
+Before the final frames, the selected construction has 1722 parent
+blocks, of which 702 involve an additional dimension-four local module.
+The retained maps comprise 335 source blocks for each of $31,13$, 458
+for $22$, and 111 joint blocks. Different frames may be associated with
+one parent block. Of the 1239 retained maps, 522 involve an additional
+dimension-four local module.
+The archive gives each parent, cut, local module tuple, frame, and order
+explicitly. These labels are checked when a multiplier is read.
+
+\subsection{Rational coefficient reconstruction}
+
+For a Gram matrix of order $k_t$, the stored symmetric coordinates are
+$Z_{ij}$ with $j=1,\ldots,k_t$ and $i=j,\ldots,k_t$, in that order.
+Let $E^{[ij]}$ be $E_{ii}$ for $i=j$ and $E_{ij}+E_{ji}$ otherwise.
+The coefficient map is determined by
+\begin{align}
+ (L_t)_{k,[ij]}
+ =\Tr\!\left[E^{[ij]}\widehat M_t(e_k)\right]\ .
+ \label{eq:gram-coefficients}
+\end{align}
+For an off-diagonal coordinate this includes both symmetric entries.
+No $\sqrt2$ factor is used in these exact stored coordinates.
+
+An explicit reconstruction uses $W=N_tE^{[ij]}N_t^{\mathsf T}$.
+For a source block it contracts $W$ against the tensor products of the
+local matrices $G_\lambda\rho_\lambda(p)$, followed by the rational
+source diagram table.
+For a joint block, partition $W$ into its two-by-two blocks. The pairing
+with \cref{eq:joint-metric-block} is
+\begin{align}
+ \Tr(W H_t)
+ =\Tr(W_{11}G_tA_t)
+  +2\Tr(W_{21}G_tC_t)
+  +\Tr(W_{22}G_tD_t)\ .
+ \label{eq:joint-coefficient-pairing}
+\end{align}
+This accounts for the factor two in every joint cross contribution.
+The word maps in \cref{eq:joint-word-maps} are applied locally before the
+partially transposed representations are selected.
+
+All input rational matrices are first expressed as integer matrices with
+common positive denominators. Tensor contractions then use integer
+arithmetic. Before a product $AB$, an integer bound
+\begin{align}
+ |(AB)_{ij}|
+ \leq \left(\sum_\ell|A_{i\ell}|\right)
+           \max_{\ell,j}|B_{\ell j}|
+ \label{eq:integer-bound}
+\end{align}
+controls every intermediate sum as well as the final entry.
+The second implementation checks bounds with arbitrary-precision Python
+integers before using fixed-width integer products. All accepted bounds
+are below $2^{62}$.
+Sparse source contractions are bounded in the same way.
+Denominators are kept separately and common factors are canceled exactly.
+Thus the independently reconstructed coefficient maps contain no
+coefficients inferred by rounding a floating-point result.
+
+The final identity check evaluates
+\begin{align}
+ r_k=c_k-\sum_t\Tr\!\left[Z_t\widehat M_t(e_k)\right]
+                  -\eta^{\mathsf T}E_0e_k
+ \label{eq:residual-check}
+\end{align}
+for all $k=1,\ldots,2741$ in rational arithmetic.
+Every $r_k$ is exactly zero. There is no omitted-coordinate or
+least-squares tolerance in this check.
+Together with \cref{lem:source-complete}, this verifies the identity on
+all averaged physical inputs.
+
+\section{Discovery of the certificate and exact reconstruction}
+\label{app:discovery}
+
+\subsection{Equality states and multiplier ranges}
+
+Known zero states help identify useful multiplier ranges in a degenerate
+semidefinite problem. If an identity with positive multipliers holds at a
+physical zero $x_*$, then each term
+$\Tr[Z_t\widehat M_t(x_*)]$ is nonnegative and their sum is zero.
+It follows that
+\begin{align}
+ \ran Z_t\subseteq\ker\widehat M_t(x_*)\ .
+ \label{eq:face-condition}
+\end{align}
+Indeed, zero trace of a product of positive matrices gives
+$\widehat M_t(x_*)^{1/2}Z_t^{1/2}=0$.
+Intersecting such kernel constraints implements the relevant part of
+facial reduction~\cite{PermenterParrilo}.
+The product zeros in \cref{eq:product-zero} already impose restrictions,
+but additional nonnormal zero families constrain further cross entries.
+
+A useful family lies on embedded qubit supports.
+Let $J=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$ and
+$\Theta=J^{\otimes3}\mathsf K$, where $\mathsf K$ is complex conjugation.
+The antiunitary obeys $\Theta^2=-I$.
+For unit $u,v\in(\C^2)^{\otimes3}$ satisfying
+$\ip u{\Theta v}=0$, define
+\begin{align}
+ C_{u,v}=\frac12\bigl(|u\rangle\langle v|
+             +|\Theta v\rangle\langle\Theta u|\bigr)\ .
+ \label{eq:crossed-antistate}
+\end{align}
+The two pairs $(u,\Theta v)$ and $(v,\Theta u)$ are orthonormal.
+Thus $C_{u,v}$ has rank two and squared Frobenius norm $1/2$.
+Its zero objective follows from the linear involution
+$\mathcal S(C)=J^{\otimes3}C^{\mathsf T}(J^{\otimes3})^\dagger$.
+This involution exchanges the two summands and acts by $(-1)^w$ on a
+Pauli string of weight $w$. The weight-three coefficients of $C_{u,v}$
+therefore vanish.
+
+To translate that fact into $q_3$, the maps
+$\mathcal D_i(C)=C-(I_{2,i}/2)\otimes\Tr_iC$ are commuting
+orthogonal projections on the embedded qubit matrix space.
+Their product selects precisely weight-three Pauli strings, and expansion
+gives
+\begin{align}
+ q_3(C)=\ip C{\mathcal D_1\mathcal D_2\mathcal D_3(C)}
+       =\norm{\mathcal D_1\mathcal D_2\mathcal D_3(C)}_F^2\ .
+\end{align}
+Hence $q_3(C_{u,v})=0$.
+Local isometric embedding in $\C^4$ preserves every partial-trace norm,
+so the same zero is valid for the target dimension.
+The balanced choice $v=u$ gives the anti-state family discussed in
+Ref.~\cite{WZ}. Allowing distinct $u,v$ also gives nonnormal members.
+
+For example, a real seed and its paired vector are
+\begin{align}
+ u=\frac15(1,2,-1,3,2,-2,1,1)^{\mathsf T},
+ \qquad v=(\sigma_z\otimes\sigma_z\otimes I_2)u\ .
+ \label{eq:crossed-seed}
+\end{align}
+They satisfy the required orthogonality.
+For $C_{u,v}=C_0/50$, the sums of squared partial-trace norms of the
+integer matrix $C_0$ at subset sizes $0,1,2,3$ are
+$(1250,2742,726,484)$.
+The identity $8(1250)-4(2742)+2(726)-484=0$ gives its exact zero.
+It is nonnormal because
+\begin{align}
+ \norm{C_{u,v}C_{u,v}^\dagger-C_{u,v}^\dagger C_{u,v}}_F^2
+ =\frac{1260000}{50^4}>0\ .
+\end{align}
+These families were used to select the frames supplied with the
+certificate. Rational averaging of parameter families can also use
+unitary permutation integration~\cite{CollinsSniady}.
+Their role is to guide the search. The final proof needs only that each
+saved frame is a valid congruence and that the complete functional
+identity and multiplier positivity hold.
+
+\subsection{From a numerical candidate to a rational identity}
+
+The numerical search optimized complete Gram matrices in the retained
+frames. A candidate with a prescribed positive margin in its numerical
+coordinates was converted to rational Gram factors by dyadic rounding.
+Factor products give initially positive semidefinite rational matrices.
+They do not automatically satisfy the desired coefficient identity.
+
+An exact affine correction was then computed together with the equality
+multipliers. After clearing denominators in the coefficient map, a chosen
+$2634\times2634$ integer minor was solved over $\Q$.
+The resulting correction was checked against all 2741 original source
+coordinates, including the 107 coordinates outside that minor.
+Thus a successful solve of a selected subsystem was not treated as a
+proof of the full identity.
+
+An affine correction can destroy positivity. After the correction, a
+separate verification therefore tested every final Gram matrix by its
+saved rational congruence. The lower bound in
+\cref{eq:exact-congruence-positive} applies to these final matrices.
+Its value is a margin for the transformed Gram matrices, not a positive
+lower bound for $q_3(C)$, which has exact zeros.
+The final certificate can be checked without rerunning any optimization,
+choosing a numerical rank threshold, or reproducing this correction.
+
+\section{Certificate data and reproducible verification}
+\label{app:verification}
+
+\subsection{Data needed to reproduce the proof}
+
+The companion repository\footnote{\url{https://github.com/GLiuax/d4-three-copy-werner}} contains
+the manuscript source, the exact data, and the independent verifier.
+It preserves the relative directory \nolinkurl{research/matched_d4}.
+Within that directory, \nolinkurl{source.json} gives the selected words,
+normalization, objective, and source-basis information.
+The three \nolinkurl{diagrams_*.npz} files store integer source diagram
+tables with their denominators specified in the source file.
+The file \nolinkurl{equality_integer.npz} contains $E$.
+Local embeddings and diagram images are in
+\nolinkurl{aligned_modules.json}, and parent block labels and replica
+cuts are in \nolinkurl{positive_blocks.json}.
+
+The subdirectory \nolinkurl{full_gram_crossed} contains
+\nolinkurl{exact_frames.json} and \nolinkurl{frames.json}, which specify
+the rational frames and their block labels.
+Its \nolinkurl{rational_maps} directory contains the rational Gram
+coefficient maps, represented as integer matrices with scalar
+denominators.
+The \nolinkurl{rational_certificate} directory contains files
+\nolinkurl{0000.json} through \nolinkurl{1238.json}, each recording a
+multiplier $Z_t$, its congruence $R_t$, and its labels.
+The file \nolinkurl{equality.json} records the selected integer row
+indices and the rational entries of $\eta$.
+Rational entries are serialized as integer or fraction strings.
+
+The original input manifest records 2485 hashes covering the multipliers
+and their coordinate inputs. The independent verifier checks this
+pre-existing manifest without replacing it.
+The source diagram tables are additionally reconstructed from their
+literal defining words.
+The companion repository includes a separate package manifest for the
+manuscript, verifier, and all distributed files.
+Hashes identify an exact set of inputs. Their agreement is an integrity
+check and is not substituted for any algebraic verification.
+
+The dimension-four source-coordinate construction used permutation
+conventions and auxiliary quotient data from the MIT-licensed code
+accompanying Ref.~\cite{Candidate}. The dimension-four literal embeddings,
+additional source directions, frames, and present certificate were
+constructed in this project.
+The independent audit program imports no construction program or earlier
+certificate verifier. It uses literal permutations, the serialized
+rational inputs, and general-purpose arithmetic libraries.
+The companion repository retains the upstream attribution and license
+information for the reused material.
+
+\subsection{Verification stages}
+
+The independent program is
+\nolinkurl{research/d4_independent_certificate_audit.py}.
+The five stages can be run from the repository root.
+\begin{verbatim}
+cd research
+audit=d4_independent_certificate_audit.py
+python "$audit" reduction
+python "$audit" foundation
+python "$audit" rank
+python "$audit" maps --workers 3
+python "$audit" certificate
+\end{verbatim}
+The stages perform the following checks.
+\begin{enumerate}
+\item The reduction stage compares formal matrix-entry monomials for all
+three joint identities. It also performs numerical diagnostics of the
+swap and vectorization conventions on general complex inputs, including
+rank one and unequal singular values. The numerical diagnostics are not
+premises of the universal proof, which is the index argument in
+\cref{sec:matched-four}.
+\item The foundation stage checks the original input hashes, all 50
+literal module embeddings and 1200 intertwining equations, the source
+projection dimensions, and nonzero basis minors. It reconstructs every
+source generator and every equality and objective column using literal
+partial traces and matrix traces.
+\item The rank stage verifies over $\Q$ that both $E$ and the selected
+row submatrix have rank 272. For the positivity implication, validity of
+the selected rows alone would suffice.
+\item The maps stage rebuilds all 1239 rational Gram maps using the
+integer contractions described in \cref{app:gram}. It checks exact
+agreement with the saved maps and writes the independently rebuilt maps
+to a separate audit directory.
+\item The certificate stage uses the rebuilt maps and objective to check
+all 2741 rational identities. It checks symmetry and the strict rational
+diagonal-dominance inequalities for all 1239 multipliers, covering 4231
+rows in total.
+\end{enumerate}
+
+The recorded rational run used NumPy 2.4.4, SciPy 1.17.1, SymPy 1.14.0,
+and python-flint 0.9.0.
+The coefficient identity and final positivity checks use exact rational
+arithmetic. Integer operations used for the map reconstruction are
+bounded as in \cref{eq:integer-bound}.
+The earlier verifier additionally checked positivity by rigorous Arb
+interval arithmetic at 256-bit precision, but the rational checks alone
+suffice for the certificate.
+
+All reported checks passed on 14 October 2026.
+The records are stored in
+\nolinkurl{research/matched_d4/full_gram_crossed/audit_2026-10-14}.
+The two implementations were developed within the same project.
+Their agreement supplies implementation diversity and does not constitute
+external peer review or formal verification in a proof assistant.
+The mathematical reduction, source-space completeness, and the finite
+rational checks together constitute the computer-assisted proof.
+
+\begin{thebibliography}{99}
+
+\bibitem{HHH}
+M. Horodecki, P. Horodecki, and R. Horodecki,
+Mixed-state entanglement and distillation: Is there a ``bound''
+entanglement in nature?,
+Phys. Rev. Lett. \textbf{80}, 5239--5242 (1998).
+\href{https://doi.org/10.1103/PhysRevLett.80.5239}{doi 10.1103/PhysRevLett.80.5239}.
+
+\bibitem{Werner}
+R. F. Werner,
+Quantum states with Einstein--Podolsky--Rosen correlations admitting
+a hidden-variable model,
+Phys. Rev. A \textbf{40}, 4277--4281 (1989).
+\href{https://doi.org/10.1103/PhysRevA.40.4277}{doi 10.1103/PhysRevA.40.4277}.
+
+\bibitem{HHWerner}
+M. Horodecki and P. Horodecki,
+Reduction criterion of separability and limits for a class of
+distillation protocols,
+Phys. Rev. A \textbf{59}, 4206--4216 (1999).
+\href{https://doi.org/10.1103/PhysRevA.59.4206}{doi 10.1103/PhysRevA.59.4206}.
+
+\bibitem{DCLB}
+W. D\"ur, J. I. Cirac, M. Lewenstein, and D. Bru\ss,
+Distillability and partial transposition in bipartite systems,
+Phys. Rev. A \textbf{61}, 062313 (2000).
+\href{https://doi.org/10.1103/PhysRevA.61.062313}{doi 10.1103/PhysRevA.61.062313}.
+
+\bibitem{DSS}
+D. P. DiVincenzo, P. W. Shor, J. A. Smolin, B. M. Terhal, and A. V. Thapliyal,
+Evidence for bound entangled states with negative partial transpose,
+Phys. Rev. A \textbf{61}, 062312 (2000).
+\href{https://doi.org/10.1103/PhysRevA.61.062312}{doi 10.1103/PhysRevA.61.062312}.
+
+\bibitem{Five}
+P. Horodecki, L. Rudnicki, and K. \.Zyczkowski,
+Five open problems in quantum information theory,
+PRX Quantum \textbf{3}, 010101 (2022).
+\href{https://doi.org/10.1103/PRXQuantum.3.010101}{doi 10.1103/PRXQuantum.3.010101}.
+
+\bibitem{PPHH}
+\L{}. Pankowski, M. Piani, M. Horodecki, and P. Horodecki,
+A few steps more towards NPT bound entanglement,
+IEEE Trans. Inf. Theory \textbf{56}, 4085--4100 (2010).
+\href{https://doi.org/10.1109/TIT.2010.2050810}{doi 10.1109/TIT.2010.2050810}.
+
+\bibitem{CostaRico}
+P. Costa Rico,
+New partial trace inequalities and distillability of Werner states,
+Lett. Math. Phys. \textbf{115}, 47 (2025).
+\href{https://doi.org/10.1007/s11005-025-01935-y}{doi 10.1007/s11005-025-01935-y}.
+
+\bibitem{SC}
+Z. Song and L. Chen,
+A partial-trace matrix inequality and Werner-state distillability,
+\href{https://arxiv.org/abs/2607.23416}{arXiv 2607.23416} (2026).
+
+\bibitem{FHPV}
+T. C. Fraser, F. Huber, B. Pozsgay, and I. Vona,
+On the two-copy distillability of Werner states and a new partial trace inequality,
+\href{https://arxiv.org/abs/2607.24309}{arXiv 2607.24309} (2026).
+
+\bibitem{FGP}
+J. Fu, L. Gao, and S.-J. Park,
+A solution to 2-copy distillability of Werner states,
+\href{https://arxiv.org/abs/2607.21367}{arXiv 2607.21367} (2026).
+
+\bibitem{BGH}
+K. Bharti, R. Gajjala, and T. Haug,
+Two-copy nondistillability of Werner states:
+Sharp partial-trace inequalities and finite-copy extensions,
+\href{https://arxiv.org/abs/2607.24479}{arXiv 2607.24479} (2026).
+
+\bibitem{WZ}
+T. Wu and Q. Zou,
+Sharp Pl\"ucker geometry for three-copy Werner distillation,
+\href{https://arxiv.org/abs/2608.02647}{arXiv 2608.02647} (2026).
+
+\bibitem{VD}
+R. O. Vianna and A. C. Doherty,
+Distillability of Werner states using entanglement witnesses and robust
+semidefinite programs,
+Phys. Rev. A \textbf{74}, 052306 (2006).
+\href{https://doi.org/10.1103/PhysRevA.74.052306}{doi 10.1103/PhysRevA.74.052306}.
+
+\bibitem{Candidate}
+Anonymous,
+Three-copy undistillability of the boundary qutrit Werner state,
+version 1.1.0-candidate (4 October 2026), candidate manuscript and certificate.
+\href{https://doi.org/10.5281/zenodo.23134454}{doi 10.5281/zenodo.23134454}.
+
+\bibitem{PermenterParrilo}
+F. Permenter and P. A. Parrilo,
+Partial facial reduction: Simplified, equivalent SDPs via approximations
+of the PSD cone,
+\href{https://arxiv.org/abs/1408.4685}{arXiv 1408.4685} (2014).
+
+\bibitem{CollinsSniady}
+B. Collins and P. \'Sniady,
+Integration with respect to the Haar measure on unitary, orthogonal and
+symplectic group,
+Commun. Math. Phys. \textbf{264}, 773--795 (2006).
+\href{https://doi.org/10.1007/s00220-006-1554-3}{doi 10.1007/s00220-006-1554-3}.
+
+\end{thebibliography}
+\end{document}

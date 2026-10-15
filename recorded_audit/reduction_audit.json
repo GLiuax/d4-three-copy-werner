@@ -1,0 +1,10 @@
+{
+  "universal_joint_entrywise_identities": 3,
+  "general_complex_d4_diagnostic_inputs": 24,
+  "rank_one_inputs": 8,
+  "swap_subset_diagnostics": 192,
+  "maximum_diagnostic_error": 9.436918788597852e-16,
+  "maximum_B_isometry_defect": 1.4142135623730956,
+  "numerical_checks_are_not_proof": true,
+  "analytic_reduction": "See manuscript, matched four-replica section"
+}

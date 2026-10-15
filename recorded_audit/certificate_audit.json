@@ -1,0 +1,9 @@
+{
+  "coefficient_identities": 2741,
+  "positive_Gram_blocks": 1239,
+  "positive_congruence_rows": 4231,
+  "rational_margin_lower_bound": "9999992/10000000",
+  "all_exact": true,
+  "maps_from_second_implementation": true,
+  "seconds": 69.44956562505104
+}
