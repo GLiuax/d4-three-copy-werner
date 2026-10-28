@@ -1,6 +1,16 @@
 # Three-copy undistillability of the boundary two-ququart Werner state
 
-**Author: Ao-Xiang Liu (刘奥祥)**
+**Authors: Ao-Xiang Liu¹ and Cong-Feng Qiao¹˒²**
+
+¹ School of Physical Sciences, University of Chinese Academy of Sciences, 1 Yanqihu East Rd, Beijing 101408, China
+
+² ICTP-AP, University of Chinese Academy of Sciences, Beijing 100190, China
+
+Correspondence: [qiaocf@ucas.ac.cn](mailto:qiaocf@ucas.ac.cn)
+
+Author and affiliation metadata updated on 28 October 2026 (version 0.1.1-draft).
+The certificate and verification programs are unchanged. The original
+15 October release remains available in the repository history.
 
 This repository contains the manuscript, rational certificate, and independent
 verification program for the **d = 4, three-copy** Werner-state result.

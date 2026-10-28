@@ -1,9 +1,17 @@
 Three-copy undistillability of the boundary two-ququart Werner state
-Manuscript and exact certificate, 15 October 2026
+Manuscript and exact certificate
+Author and affiliation revision, 28 October 2026 (0.1.1-draft)
 
 The manuscript is research/matrix_inequality_proof.tex. It is a standalone
 LaTeX document with a complete bibliography and five technical appendices.
-Author: Ao-Xiang Liu (刘奥祥). No institutional affiliation is specified.
+Authors: Ao-Xiang Liu (1) and Cong-Feng Qiao (1,2).
+(1) School of Physical Sciences, University of Chinese Academy of Sciences, 1 Yanqihu East Rd, Beijing 101408, China
+(2) ICTP-AP, University of Chinese Academy of Sciences, Beijing 100190, China
+Correspondence: qiaocf@ucas.ac.cn
+
+The certificate data and verification programs are unchanged. The original
+15 October release and its dated verification receipts remain historical
+records of that version.
 
 The exact endpoint statement is q3(C)>=0 for every complex 64-by-64
 matrix of rank at most two. The manuscript also derives the full

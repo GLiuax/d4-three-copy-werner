@@ -1,10 +1,10 @@
 {
   ".gitignore": "3b7479c6ecf6ded291191be089087168ba32db56c1e9f7e2461cc3d6fb3c854e",
-  "CITATION.cff": "99392ea03680ea2b48f617deea35db6d01739fde38b1faae56c147bac9253c56",
-  "README.md": "1fa7889c38265962e19cd829378c89c29b12c56f614126c89d63f24ddcb81ce0",
-  "README.txt": "df0f584d97ae9f82a74c5bb84edf1166edceb371ddcdac09642f6130b5d40398",
+  "CITATION.cff": "9cc3bbadc012f3b72fde480d761b5d08fb46a63c844a00189a1651089351939d",
+  "README.md": "d2842f6bbd2b4a49d435ea3fe7e102ad15f7905045eae1c260446b0efd862ef9",
+  "README.txt": "a8d2dad468c7ad755fbce8608da3dbc1b6269ccc16fd60e54fd58ddcab4c32f7",
   "VERIFICATION.json": "8161cf445e45db125a9c4d558e37929669a824057b1389e5be615991da16ef58",
-  "output/pdf/three_copy_d4_werner_manuscript.pdf": "6846c71cf2ef29208b1255bffbc932681efd7feec4f8a7b0954c8b0f0e84f968",
+  "output/pdf/three_copy_d4_werner_manuscript.pdf": "c92f2f7a15f369dead9b327b05760894a10db74c4d9f03729c1d8f12b478cb55",
   "provenance/README.md": "b3ecc97c0de34acf7400d9ea9003e96e1120a6b49118b26ee7a3c52e92fe765b",
   "provenance/qutrit-LICENSE": "66ac28f8eed17026d30a68b21eb0f16504a0b1137df9f9ada95a64d3af12ef81",
   "provenance/qutrit-LICENSE-CODE": "3d9685342ea6ef1a6e2f4a58cabba83b856c75623ed8862470aff97037aceb48",
@@ -2507,5 +2507,5 @@
   "research/matched_d4/full_gram_crossed/rational_maps/1238.npz": "80e4d4426ab6b8fe3a275224773b919eecc29c3870e5a9f88751e0237688eb2b",
   "research/matched_d4/positive_blocks.json": "25744b3ac6a05c91fa512bc448d037ff1ab505311f63c72a55dea51313589633",
   "research/matched_d4/source.json": "88e072cc029e410cccf56fd8e3ee5a7ffc5df54887578d041802bfe752410831",
-  "research/matrix_inequality_proof.tex": "bececb549dd406858cbc60d83dd46dc0c06f42e6cc1295f97b2b13c823d8f981"
+  "research/matrix_inequality_proof.tex": "68a3518464f6610278345e1cf27039debb47305e956b879627b8c10aaa722ea5"
 }
